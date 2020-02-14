@@ -36,8 +36,9 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            Pin Tracker
           </Typography>
+          <Button color="inherit">Sign Up</Button>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
