@@ -54,7 +54,8 @@ module.exports = {
   },
   createGame: (args) => {
     args = JSON.parse(JSON.stringify(args));
-    console.log(args.gameInput.frames);
+    console.log(args.gameInput);
+    console.log('input', args.gameInput.frames);
     const newGame = async () => {
       const user = await User.findById(new ObjectID(args.gameInput.userId));
       if (!user) {
@@ -63,10 +64,7 @@ module.exports = {
       const game = new Game({
         date: new Date(),
         user: user._id,
-        frames: {
-          frame: args.gameInput.frames.frame,
-          shots: { ...args.gameInput.frames.shots }
-        }
+        frames: args.gameInput.frames
       });
       const saveState = await game.save();
       console.log(saveState);

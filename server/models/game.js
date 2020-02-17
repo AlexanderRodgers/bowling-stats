@@ -13,8 +13,22 @@ const gameSchema = new Schema({
   },
   frames: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Frame'
+      frame: {
+        type: Number,
+        required: true
+      },
+      shots: [
+        {
+          bowl: {
+            type: Number,
+            required: true
+          },
+          pins: {
+            type: [Number],
+            required: true
+          }
+        }
+      ],
     }
   ]
 });

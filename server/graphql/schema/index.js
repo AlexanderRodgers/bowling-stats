@@ -2,14 +2,14 @@ const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
 
-    type Throw {
-      throw: Int!
+    type Bowl {
+      bowl: Int!
       pins: [Int]!
     }
 
     type Frame {
       frame: Int!
-      shots: [Throw]!
+      shots: [Bowl]!
     }
 
     type Game {
@@ -45,11 +45,11 @@ module.exports = buildSchema(`
 
     input FrameInput {
       frame: Int!
-      shots: [ThrowInput!]!
+      shots: [BowlInput!]!
     }
 
-    input ThrowInput {
-      throw: Int!
+    input BowlInput {
+      bowl: Int!
       pins: [Int]
     }
 

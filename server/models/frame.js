@@ -19,10 +19,6 @@ const frameSchema = new Schema({
       }
     }
   ],
-  game: {
-    type: Schema.Types.ObjectId,
-    ref: 'Game'
-  }
 });
 
 module.exports = mongooose.model('Frame', frameSchema);
