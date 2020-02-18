@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,13 +20,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// const backgroundSyle = {
-//   background: "-webkit-linear-gradient(to right, #C06C84, #6C5B7B, #355C7D);"
-
-
-// }
-
 const NavBar = () => {
+  const history = useHistory();
   const classes = useStyles();
 
   return (
@@ -38,8 +34,8 @@ const NavBar = () => {
           <Typography variant="h6" className={classes.title}>
             Pin Tracker
           </Typography>
-          <Button color="inherit">Sign Up</Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={() => history.push('/sign-up')}>Sign Up</Button>
+          <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -4,7 +4,6 @@ import FrameSelection from '../components/FrameSelection';
 import { Button } from '@material-ui/core';
 import { CREATE_GAME, ADD_USER } from '../api/queries';
 import { useMutation } from '@apollo/react-hooks';
-import Scoresheet from '../components/Scoresheet';
 
 
 const Main = (props) => {
@@ -60,7 +59,6 @@ const Main = (props) => {
       <Pinbutton togglePinState={togglePinState}></Pinbutton>
       <FrameSelection updateFrame={updateFrame}></FrameSelection>
       <Button variant="contained" color="primary" style={{ marginTop: "10px", width: "100%" }} onClick={() => addNewGame()}>Submit</Button>
-      <Scoresheet></Scoresheet>
     </div>
   );
 };

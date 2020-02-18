@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +19,8 @@ const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [disabled, setDisabled] = React.useState(true);
+
+  const history = useHistory();
 
   const updateDisabledState = () => {
     if (!!email && !!password) {
@@ -64,7 +67,7 @@ const Login = () => {
           Submit
             </Button>
         <Button variant="outlined" color="primary"
-          style={{ margin: "0 10px 10px 10px", float: 'right' }}>Back</Button>
+          style={{ margin: "0 10px 10px 10px", float: 'right' }} onClick={() => history.push('/')}>Back</Button>
       </div>
     </LoginCard>
   );

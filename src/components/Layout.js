@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import NavBar from '../components/NavBar';
 
 const styles = {
   bkg: {
@@ -19,6 +20,7 @@ const Container = styled.div`
 const Layout = (props) => {
   return (
     <Container className={styles.bkg}>
+      <NavBar></NavBar>
       {props.children}
     </Container>
   )
