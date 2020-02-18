@@ -54,8 +54,6 @@ module.exports = {
   },
   createGame: (args) => {
     args = JSON.parse(JSON.stringify(args));
-    console.log(args.gameInput);
-    console.log('input', args.gameInput.frames);
     const newGame = async () => {
       const user = await User.findById(new ObjectID(args.gameInput.userId));
       if (!user) {
