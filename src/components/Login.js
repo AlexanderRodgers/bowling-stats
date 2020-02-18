@@ -22,9 +22,25 @@ const Login = () => {
 
   const history = useHistory();
 
+  const setProperty = (prop, val) => {
+    val = val.target.value
+    switch (prop) {
+      case 'email':
+        setEmail(val);
+        break;
+      case 'password':
+        setPassword(val);
+        break;
+      default:
+        break;
+    }
+    updateDisabledState();
+  }
+
   const updateDisabledState = () => {
     if (!!email && !!password) {
       setDisabled(false);
+      console.log(disabled);
       return;
     }
     setDisabled(true);
@@ -40,7 +56,7 @@ const Login = () => {
           id="username"
           label="Username"
           value={email}
-          onChange={(text) => setEmail(text)}
+          onChange={(text) => setProperty('email', text)}
           margin="normal"
           variant="outlined"
           required
@@ -51,7 +67,7 @@ const Login = () => {
           id="password"
           label="Password"
           value={password}
-          onChange={(text) => setPassword(text)}
+          onChange={(text) => setProperty('password', text)}
           type="password"
           autoComplete="current-password"
           margin="normal"

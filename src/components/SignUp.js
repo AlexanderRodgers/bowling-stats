@@ -27,6 +27,7 @@ const SignUp = () => {
   const [last, setLast] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  // eslint-disable-next-line
   const [disabled, setDisabled] = React.useState(true);
   const [addUser, { data }] = useMutation(ADD_USER);
 
@@ -53,10 +54,13 @@ const SignUp = () => {
     updateDisabledState();
   }
 
+  const saveInfo = (info) => {
+    localStorage.setItem('user', JSON.stringify(info));
+  }
+
   const updateDisabledState = () => {
-    if (!!email && !!password) {
+    if (!!first && !!last && !!email && !!password) {
       setDisabled(false);
-      console.log(disabled);
       return;
     }
     setDisabled(true);
@@ -74,6 +78,7 @@ const SignUp = () => {
       }
     }).then(res => {
       console.log(res);
+      saveInfo(res.data.createUser);
       history.push('/');
     })
       .catch(e => console.log(e));
