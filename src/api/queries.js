@@ -23,7 +23,7 @@ query Login ($email: String!, $password: String!) {
 `
 
 export const CREATE_GAME = gql`
-mutation createGame ($gameInput: GameInput) {
+mutation CreateGame ($gameInput: GameInput) {
   createGame(gameInput: $gameInput) {
     _id
     frames {

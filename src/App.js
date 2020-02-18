@@ -2,10 +2,11 @@ import React from 'react';
 import NavBar from './components/NavBar';
 import Layout from './components/Layout';
 import Main from './views/main';
+import Login from './components/Login';
 import './App.css';
 
 // Apollo Setup
-import ApolloClient from 'apollo-boost';
+import ApolloClient from 'apollo-client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
@@ -25,6 +26,7 @@ function App() {
       <Layout id="hello" >
         <NavBar></NavBar>
         <Main></Main>
+        <Login></Login>
       </Layout>
     </ApolloProvider>
   );

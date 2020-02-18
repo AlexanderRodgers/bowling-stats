@@ -2,16 +2,22 @@ const Koa = require('koa');
 const cors = require('@koa/cors');
 const Router = require('koa-router');
 const graphqlHttp = require('koa-graphql');
-const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 const schema = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
 
 const PORT = 4200;
 
+var options = {
+  origin: '*'
+};
+
+
 const app = new Koa();
-app.use(cors());
 const router = new Router();
+app.use(cors());
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 router.all('/graphql', graphqlHttp({
   schema: schema,
@@ -19,8 +25,6 @@ router.all('/graphql', graphqlHttp({
   graphiql: true,
   pretty: true
 }));
-
-app.use(router.routes()).use(router.allowedMethods());
 
 // If you run into a connection error, it is most likely because the current IP is not whitelisted. You'll have to login to change that.
 mongoose.connect(

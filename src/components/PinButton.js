@@ -27,76 +27,69 @@ const styles = {
 
 }
 
-const PinButton = () => {
-  const togglePinState = (pinNumber, e) => {
-    const newFrame = frame;
-    newFrame[pinNumber - 1] = !newFrame[pinNumber - 1];
-    if (newFrame[pinNumber - 1]) {
-      e.target.style.backgroundColor = 'green';
-    } else {
-      e.target.style.backgroundColor = 'white';
-    }
-    setFrame(newFrame);
+const PinButton = (props) => {
+
+  const handleChange = (pinNumber, e) => {
+    props.togglePinState(pinNumber, e);
   }
 
-  const [frame, setFrame] = useState([false, false, false, false, false, false, false, false, false, false]);
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Grid container style={styles.pins}>
         <Button >
-          <Paper onClick={(e) => togglePinState(7, e)} className={classes.paper} >
+          <Paper onClick={(e) => handleChange(7, e)} className={classes.paper} >
             7
           </Paper>
         </Button>
         <Button >
-          <Paper onClick={(e) => togglePinState(8, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(8, e)} className={classes.paper}>
             8
           </Paper>
         </Button>
         <Button>
-          <Paper onClick={(e) => togglePinState(9, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(9, e)} className={classes.paper}>
             9
           </Paper>
         </Button>
         <Button >
-          <Paper onClick={(e) => togglePinState(10, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(10, e)} className={classes.paper}>
             10
           </Paper>
         </Button>
       </Grid>
       <Grid container style={styles.pins}>
         <Button>
-          <Paper onClick={(e) => togglePinState(4, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(4, e)} className={classes.paper}>
             4
           </Paper>
         </Button>
         <Button >
-          <Paper onClick={(e) => togglePinState(5, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(5, e)} className={classes.paper}>
             5
           </Paper>
         </Button>
         <Button >
-          <Paper onClick={(e) => togglePinState(6, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(6, e)} className={classes.paper}>
             6
           </Paper>
         </Button>
       </Grid>
       <Grid container style={styles.pins}>
         <Button >
-          <Paper onClick={(e) => togglePinState(2, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(2, e)} className={classes.paper}>
             2
           </Paper>
         </Button>
         <Button >
-          <Paper onClick={(e) => togglePinState(3, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(3, e)} className={classes.paper}>
             3
           </Paper>
         </Button>
       </Grid>
       <Grid container style={styles.pins}>
         <Button>
-          <Paper onClick={(e) => togglePinState(1, e)} className={classes.paper}>
+          <Paper onClick={(e) => handleChange(1, e)} className={classes.paper}>
             1
             </Paper>
         </Button>
