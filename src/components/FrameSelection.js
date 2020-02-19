@@ -29,6 +29,19 @@ const FrameSelection = (props) => {
     console.log(event.target.value);
     props.setThrowNumber(event.target.value);
   }
+
+  const updateDisabled = () => {
+    props.updateDisabled();
+  }
+
+  const createMenus = (stop) => {
+    let frames = [];
+    for (let i = 1; i < stop; i++) {
+      frames.push(<MenuItem value={i} key={i}>{i}</MenuItem>)
+    }
+    return frames;
+  }
+
   return (
     <Card style={{ marginTop: "10px" }}>
       <FormControl className={classes.formControl}>
@@ -39,16 +52,7 @@ const FrameSelection = (props) => {
           value={frame}
           onChange={handleChange}
         >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={6}>6</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={8}>8</MenuItem>
-          <MenuItem value={9}>9</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
+          {createMenus(11)}
         </Select>
       </FormControl>
 
@@ -60,12 +64,10 @@ const FrameSelection = (props) => {
           value={props.throwNumber}
           onChange={(event) => handleThrow(event)}
         >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
+          {createMenus(4)}
         </Select>
       </FormControl>
-      <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Throw</Button>
+      <Button variant="contained" style={{ width: "50%" }} color="secondary" onClick={() => updateDisabled()}>Submit Throw</Button>
       <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Frame</Button>
     </Card>
   );

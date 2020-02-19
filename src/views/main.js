@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pinbutton from '../components/PinButton';
 import FrameSelection from '../components/FrameSelection';
 import { Button } from '@material-ui/core';
@@ -7,20 +7,26 @@ import { useMutation } from '@apollo/react-hooks';
 
 
 const Main = (props) => {
-  const [frame, setFrame] = useState(0);
+  const [frame, setFrame] = useState(1);
   const [createGame, { gameData }] = useMutation(CREATE_GAME);
   const [createUser, { userData }] = useMutation(ADD_USER);
-  const [throwNumber, setThrowNumber] = useState(1)
+  const [throwNumber, setThrowNumber] = useState(1);
   const [pins, setPins] = useState([false, false, false, false, false, false, false, false, false, false]);
-  const [disabledPin, setDisabledPin] = React.useState([false, false, false, false, false, false, false, false, false, false]);
+  const [disabledPins, setDisabledPin] = React.useState([false, false, false, false, false, false, false, false, false, false]);
 
   const updateFrame = (frameNumber) => {
     setFrame(frameNumber);
   }
 
-  // const updateDisabled = (pinNumber) => {
-  //   if 
-  // }
+  const updateDisabled = () => {
+    const newDisabledPins = disabledPins;
+    for (let pin in pins) {
+      if (pins[pin] && throwNumber !== 3) {
+        newDisabledPins[pin] = true;
+      }
+    }
+    setDisabledPin(newDisabledPins);
+  }
 
   const togglePinState = (pinNumber, e) => {
     const newFrame = pins;
@@ -44,8 +50,8 @@ const Main = (props) => {
 
   return (
     <div>
-      <Pinbutton togglePinState={togglePinState}></Pinbutton>
-      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber}></FrameSelection>
+      <Pinbutton togglePinState={togglePinState} disabledPins={disabledPins}></Pinbutton>
+      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber} updateDisabled={updateDisabled}></FrameSelection>
       <Button variant="contained" color="primary" style={{ marginTop: "10px", width: "100%" }} onClick={() => addNewGame()}>Submit</Button>
     </div>
   );

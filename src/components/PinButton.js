@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -29,6 +29,18 @@ const styles = {
 
 const PinButton = (props) => {
 
+  const createButtons = (start, stop) => {
+    const buttons = [];
+    for (let i = start; i < stop; i++) {
+      buttons.push(
+        <Button key={i} >
+          <Paper onClick={(e) => handleChange(i, e)} className={classes.paper}>{i}</Paper>
+        </Button>
+      );
+    }
+    return buttons;
+  }
+
   const handleChange = (pinNumber, e) => {
     props.togglePinState(pinNumber, e);
   }
@@ -37,55 +49,13 @@ const PinButton = (props) => {
   return (
     <div className={classes.root}>
       <Grid container style={styles.pins}>
-        <Button >
-          <Paper onClick={(e) => handleChange(7, e)} className={classes.paper} >
-            7
-          </Paper>
-        </Button>
-        <Button >
-          <Paper onClick={(e) => handleChange(8, e)} className={classes.paper}>
-            8
-          </Paper>
-        </Button>
-        <Button>
-          <Paper onClick={(e) => handleChange(9, e)} className={classes.paper}>
-            9
-          </Paper>
-        </Button>
-        <Button >
-          <Paper onClick={(e) => handleChange(10, e)} className={classes.paper}>
-            10
-          </Paper>
-        </Button>
+        {createButtons(7, 11)}
       </Grid>
       <Grid container style={styles.pins}>
-        <Button>
-          <Paper onClick={(e) => handleChange(4, e)} className={classes.paper}>
-            4
-          </Paper>
-        </Button>
-        <Button >
-          <Paper onClick={(e) => handleChange(5, e)} className={classes.paper}>
-            5
-          </Paper>
-        </Button>
-        <Button >
-          <Paper onClick={(e) => handleChange(6, e)} className={classes.paper}>
-            6
-          </Paper>
-        </Button>
+        {createButtons(4, 7)}
       </Grid>
       <Grid container style={styles.pins}>
-        <Button >
-          <Paper onClick={(e) => handleChange(2, e)} className={classes.paper}>
-            2
-          </Paper>
-        </Button>
-        <Button >
-          <Paper onClick={(e) => handleChange(3, e)} className={classes.paper}>
-            3
-          </Paper>
-        </Button>
+        {createButtons(2, 4)}
       </Grid>
       <Grid container style={styles.pins}>
         <Button>
