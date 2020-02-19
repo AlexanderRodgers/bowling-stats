@@ -12,20 +12,9 @@ const Main = (props) => {
   const [createUser, { userData }] = useMutation(ADD_USER);
   const [throwNumber, setThrowNumber] = useState(1);
   const [pins, setPins] = useState([false, false, false, false, false, false, false, false, false, false]);
-  const [disabledPins, setDisabledPin] = React.useState([false, false, false, false, false, false, false, false, false, false]);
 
   const updateFrame = (frameNumber) => {
     setFrame(frameNumber);
-  }
-
-  const updateDisabled = () => {
-    const newDisabledPins = disabledPins;
-    for (let pin in pins) {
-      if (pins[pin] && throwNumber !== 3) {
-        newDisabledPins[pin] = true;
-      }
-    }
-    setDisabledPin(newDisabledPins);
   }
 
   const togglePinState = (pinNumber, e) => {
@@ -39,6 +28,51 @@ const Main = (props) => {
     setPins(newFrame);
   }
 
+  const getGameObject = () => {
+    const game = localStorage.getItem('game');
+    if (!game) {
+      game = {
+        userId: 'null',
+        frames: []
+      }
+    }
+    return game;
+  }
+
+  const getFrameObject = () => {
+    let frame = JSON.parse(localStorage.getItem('frame'));
+    if (!frame) {
+      frame = {
+        frame: 1,
+        shots: []
+      }
+    }
+    return frame;
+  }
+
+  const addFrameToGame = () => {
+    let game = getGameObject();
+    let currentFrame = {};
+    currentFrame.frame = frame;
+    currentFrame.shots = [];
+    currentFrame.shots.push(JSON.parse(localStorage.getItem('frame')));
+    game.frames.push(currentFrame);
+  }
+
+  const addThrowToFrame = () => {
+    const pinNumbers = [];
+    for (let i = 1; i < 11; i++) {
+      if (pins[i - 1]) {
+        pinNumbers.push(i);
+      }
+    }
+    let frame = getFrameObject();
+    frame.frame = throwNumber;
+    frame.pins = pinNumbers
+    localStorage.setItem('frame', JSON.stringify(frame));
+    return frame;
+  }
+
   const addNewGame = () => {
     createGame({
       variables: {
@@ -50,8 +84,8 @@ const Main = (props) => {
 
   return (
     <div>
-      <Pinbutton togglePinState={togglePinState} disabledPins={disabledPins}></Pinbutton>
-      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber} updateDisabled={updateDisabled}></FrameSelection>
+      <Pinbutton togglePinState={togglePinState}></Pinbutton>
+      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber} addThrowToFrame={addThrowToFrame}></FrameSelection>
       <Button variant="contained" color="primary" style={{ marginTop: "10px", width: "100%" }} onClick={() => addNewGame()}>Submit</Button>
     </div>
   );

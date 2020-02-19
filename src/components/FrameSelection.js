@@ -30,10 +30,6 @@ const FrameSelection = (props) => {
     props.setThrowNumber(event.target.value);
   }
 
-  const updateDisabled = () => {
-    props.updateDisabled();
-  }
-
   const createMenus = (stop) => {
     let frames = [];
     for (let i = 1; i < stop; i++) {
@@ -67,7 +63,7 @@ const FrameSelection = (props) => {
           {createMenus(4)}
         </Select>
       </FormControl>
-      <Button variant="contained" style={{ width: "50%" }} color="secondary" onClick={() => updateDisabled()}>Submit Throw</Button>
+      <Button variant="contained" style={{ width: "50%" }} color="secondary" onClick={() => props.addThrowToFrame()}>Submit Throw</Button>
       <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Frame</Button>
     </Card>
   );
