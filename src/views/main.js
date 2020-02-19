@@ -10,11 +10,17 @@ const Main = (props) => {
   const [frame, setFrame] = useState(0);
   const [createGame, { gameData }] = useMutation(CREATE_GAME);
   const [createUser, { userData }] = useMutation(ADD_USER);
+  const [throwNumber, setThrowNumber] = useState(1)
   const [pins, setPins] = useState([false, false, false, false, false, false, false, false, false, false]);
+  const [disabledPin, setDisabledPin] = React.useState([false, false, false, false, false, false, false, false, false, false]);
 
   const updateFrame = (frameNumber) => {
     setFrame(frameNumber);
   }
+
+  // const updateDisabled = (pinNumber) => {
+  //   if 
+  // }
 
   const togglePinState = (pinNumber, e) => {
     const newFrame = pins;
@@ -30,24 +36,6 @@ const Main = (props) => {
   const addNewGame = () => {
     createGame({
       variables: {
-        gameInput: {
-          userId: "5e48d94c6e004a3a40168d5a",
-          frames: [
-            {
-              frame: 1,
-              shots: [
-                {
-                  bowl: 1,
-                  pins: [1, 2, 3, 4]
-                },
-                {
-                  bowl: 2,
-                  pins: [5, 6, 7]
-                }
-              ]
-            }
-          ]
-        }
       }
     }).then(res => {
       gameData = res.data.createGame;
@@ -57,7 +45,7 @@ const Main = (props) => {
   return (
     <div>
       <Pinbutton togglePinState={togglePinState}></Pinbutton>
-      <FrameSelection updateFrame={updateFrame}></FrameSelection>
+      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber}></FrameSelection>
       <Button variant="contained" color="primary" style={{ marginTop: "10px", width: "100%" }} onClick={() => addNewGame()}>Submit</Button>
     </div>
   );

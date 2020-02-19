@@ -89,9 +89,15 @@ const PinButton = (props) => {
       </Grid>
       <Grid container style={styles.pins}>
         <Button>
+          <Paper className={classes.paper}>X</Paper>
+        </Button>
+        <Button>
           <Paper onClick={(e) => handleChange(1, e)} className={classes.paper}>
             1
-            </Paper>
+          </Paper>
+        </Button>
+        <Button>
+          <Paper className={classes.paper}>/</Paper>
         </Button>
       </Grid>
     </div >

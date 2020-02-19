@@ -22,7 +22,7 @@ module.exports = {
       })
       .then(isMatch => {
         if (isMatch) {
-          const token = jwt.sign({ userId: newUser.id, email: newUser.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+          const token = jwt.sign({ userId: newUser.id, email: newUser.email }, process.env.JWT_SECRET_KEY, { expiresIn: '24h' });
           return { userId: newUser.id, token, tokenExpiration: 1 }
         } else {
           return null;
@@ -48,7 +48,9 @@ module.exports = {
         return user.save();
       })
       .then(result => {
-        return { ...result._doc, password: null, _id: result.id };
+        console.log(result);
+        const token = jwt.sign({ userId: result.id, email: result.email }, process.env.JWT_SECRET_KEY, { expiresIn: '24h' });
+        return { userId: result.id, token, tokenExpiration: 24 };
       })
       .catch(err => { throw err });
   },
@@ -65,7 +67,10 @@ module.exports = {
         frames: args.gameInput.frames
       });
       const saveState = await game.save();
-      console.log(saveState);
+      if (saveState) {
+        user.games.push(game.id);
+        user.save();
+      }
       return { ...saveState._doc, _id: saveState.id };
     }
     return newGame();

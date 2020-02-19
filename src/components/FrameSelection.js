@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
@@ -23,6 +24,11 @@ const FrameSelection = (props) => {
   const handleChange = event => {
     props.updateFrame(event.target.value);
   };
+
+  const handleThrow = event => {
+    console.log(event.target.value);
+    props.setThrowNumber(event.target.value);
+  }
   return (
     <Card style={{ marginTop: "10px" }}>
       <FormControl className={classes.formControl}>
@@ -51,14 +57,16 @@ const FrameSelection = (props) => {
         <Select
           labelId="frame-select"
           id="frame-select-id"
-          value={bowl}
-          onChange={handleChange}
+          value={props.throwNumber}
+          onChange={(event) => handleThrow(event)}
         >
           <MenuItem value={1}>1</MenuItem>
           <MenuItem value={2}>2</MenuItem>
           <MenuItem value={3}>3</MenuItem>
         </Select>
       </FormControl>
+      <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Throw</Button>
+      <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Frame</Button>
     </Card>
   );
 };

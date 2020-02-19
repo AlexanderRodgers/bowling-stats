@@ -59,7 +59,7 @@ module.exports = buildSchema(`
     }
 
     type RootMutation {
-      createUser(userInput: UserInput): User
+      createUser(userInput: UserInput): AuthData!
       createGame(gameInput: GameInput): Game
     }
 
