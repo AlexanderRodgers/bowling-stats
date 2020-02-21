@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/react-hooks';
 
 const Main = (props) => {
   const [frame, setFrame] = useState(1);
-  const [createGame, { gameData }] = useMutation(CREATE_GAME);
+  const [createGame, { gameData }] = useMutation(CREATE_GAME, { errorPolicy: 'all' });
   // const [createUser, { userData }] = useMutation(ADD_USER);
   const [debug, setDebug] = useState(false);
   const [throwNumber, setThrowNumber] = useState(1);
@@ -75,9 +75,7 @@ const Main = (props) => {
     let mainFrame = frame;
     let game = getGameObject();
     game.userId = getUserId();
-    let currentFrame = {};
-    currentFrame.frame = frame;
-    currentFrame.shots = [];
+    addThrowToFrame();
     if (game.frames.length !== 0) {
       game.frames.forEach(({ frame }, index) => {
         if (frame === mainFrame) {
@@ -85,9 +83,7 @@ const Main = (props) => {
         }
       });
     }
-    addThrowToFrame();
-    currentFrame.shots.push(JSON.parse(localStorage.getItem('frame')));
-    game.frames.push(currentFrame);
+    game.frames.push(JSON.parse(localStorage.getItem('frame')));
     localStorage.setItem('game', JSON.stringify(game));
   }
 
@@ -123,13 +119,10 @@ const Main = (props) => {
     let game = getGameObject();
     createGame({
       variables: {
-        gameInput: {
-          userId: game.userId,
-          famres: game.frames
-        }
+        gameInput: game
       }
     }).then(res => {
-      gameData = res.data.createGame;
+      console.log(res);
     }).catch(e => console.log(e));
   }
 
