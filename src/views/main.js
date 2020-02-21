@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Pinbutton from '../components/PinButton';
 import FrameSelection from '../components/FrameSelection';
 import { Button } from '@material-ui/core';
-import { CREATE_GAME, ADD_USER } from '../api/queries';
+import { CREATE_GAME } from '../api/queries';
 import { useMutation } from '@apollo/react-hooks';
 
 
 const Main = (props) => {
   const [frame, setFrame] = useState(1);
   const [createGame, { gameData }] = useMutation(CREATE_GAME);
-  const [createUser, { userData }] = useMutation(ADD_USER);
+  // const [createUser, { userData }] = useMutation(ADD_USER);
+  const [debug, setDebug] = useState(false);
   const [throwNumber, setThrowNumber] = useState(1);
   const [pins, setPins] = useState([false, false, false, false, false, false, false, false, false, false]);
 
@@ -28,11 +29,16 @@ const Main = (props) => {
     setPins(newFrame);
   }
 
+  const resetGame = () => {
+    localStorage.setItem('game', '{}');
+    localStorage.setItem('frame', '{}');
+  }
+
   const getGameObject = () => {
-    const game = localStorage.getItem('game');
+    let game = JSON.parse(localStorage.getItem('game'));
     if (!game) {
       game = {
-        userId: 'null',
+        userId: getUserId(),
         frames: []
       }
     }
@@ -50,13 +56,39 @@ const Main = (props) => {
     return frame;
   }
 
+  const getUserId = () => {
+    let userObjectString = localStorage.getItem('user');
+    let user;
+    if (userObjectString) {
+      user = JSON.parse(userObjectString).userId;
+    }
+    return userObjectString ? user : null;
+  }
+
+  //TODO
+  const spare = () => {
+    setPins([true, true, true, true, true, true, true, true, true, true]);
+    addThrowToFrame();
+  }
+
   const addFrameToGame = () => {
+    let mainFrame = frame;
     let game = getGameObject();
+    game.userId = getUserId();
     let currentFrame = {};
     currentFrame.frame = frame;
     currentFrame.shots = [];
+    if (game.frames.length !== 0) {
+      game.frames.forEach(({ frame }, index) => {
+        if (frame === mainFrame) {
+          game.frames.splice(index, 1);
+        }
+      });
+    }
+    addThrowToFrame();
     currentFrame.shots.push(JSON.parse(localStorage.getItem('frame')));
     game.frames.push(currentFrame);
+    localStorage.setItem('game', JSON.stringify(game));
   }
 
   const addThrowToFrame = () => {
@@ -66,16 +98,35 @@ const Main = (props) => {
         pinNumbers.push(i);
       }
     }
-    let frame = getFrameObject();
-    frame.frame = throwNumber;
-    frame.pins = pinNumbers
-    localStorage.setItem('frame', JSON.stringify(frame));
-    return frame;
+    let currentFrame = getFrameObject();
+    let currentThrow = {};
+    currentThrow.bowl = throwNumber;
+    currentThrow.pins = pinNumbers;
+    currentFrame.frame = frame;
+    if (!currentFrame.shots) {
+      currentFrame.shots = [];
+    }
+    if (currentFrame.shots.length !== 0) {
+      // Overwrite the throw if it already exists.
+      currentFrame.shots.forEach(({ bowl }, index) => {
+        if (bowl === throwNumber) {
+          currentFrame.shots.splice(index, 1);
+        }
+      });
+    }
+    currentFrame.shots.push(currentThrow);
+    localStorage.setItem('frame', JSON.stringify(currentFrame));
+    return currentFrame;
   }
 
   const addNewGame = () => {
+    let game = getGameObject();
     createGame({
       variables: {
+        gameInput: {
+          userId: game.userId,
+          famres: game.frames
+        }
       }
     }).then(res => {
       gameData = res.data.createGame;
@@ -85,8 +136,17 @@ const Main = (props) => {
   return (
     <div>
       <Pinbutton togglePinState={togglePinState}></Pinbutton>
-      <FrameSelection updateFrame={updateFrame} setThrowNumber={setThrowNumber} throwNumber={throwNumber} addThrowToFrame={addThrowToFrame}></FrameSelection>
+      <FrameSelection
+        frame={frame}
+        updateFrame={updateFrame}
+        setThrowNumber={setThrowNumber}
+        throwNumber={throwNumber}
+        addThrowToFrame={addThrowToFrame}
+        addFrameToGame={addFrameToGame}></FrameSelection>
       <Button variant="contained" color="primary" style={{ marginTop: "10px", width: "100%" }} onClick={() => addNewGame()}>Submit</Button>
+      <Button onClick={() => setDebug(!debug)}>Debug {debug ? 'On' : 'Off'}</Button>
+      <Button style={{ float: "right" }} onClick={() => resetGame()}>Reset</Button>
+      {debug && <p>{localStorage.getItem('game')}</p>}
     </div>
   );
 };

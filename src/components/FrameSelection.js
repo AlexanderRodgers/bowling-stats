@@ -18,16 +18,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FrameSelection = (props) => {
-  let frame = 1;
-  let bowl = 1;
   const classes = useStyles();
   const handleChange = event => {
     props.updateFrame(event.target.value);
   };
 
   const handleThrow = event => {
-    console.log(event.target.value);
     props.setThrowNumber(event.target.value);
+  }
+
+  const handleFrame = event => {
+    props.updateFrame(event.target.value);
   }
 
   const createMenus = (stop) => {
@@ -45,8 +46,8 @@ const FrameSelection = (props) => {
         <Select
           labelId="frame-select"
           id="frame-select-id"
-          value={frame}
-          onChange={handleChange}
+          value={props.frame}
+          onChange={(event) => handleFrame(event)}
         >
           {createMenus(11)}
         </Select>
@@ -64,7 +65,7 @@ const FrameSelection = (props) => {
         </Select>
       </FormControl>
       <Button variant="contained" style={{ width: "50%" }} color="secondary" onClick={() => props.addThrowToFrame()}>Submit Throw</Button>
-      <Button variant="contained" style={{ width: "50%" }} color="secondary">Submit Frame</Button>
+      <Button variant="contained" style={{ width: "50%" }} color="secondary" onClick={() => props.addFrameToGame()}>Submit Frame</Button>
     </Card>
   );
 };

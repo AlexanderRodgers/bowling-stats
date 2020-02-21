@@ -8,11 +8,6 @@ const resolvers = require('./graphql/resolvers');
 
 const PORT = 4200;
 
-var options = {
-  origin: '*'
-};
-
-
 const app = new Koa();
 const router = new Router();
 app.use(cors());
@@ -31,7 +26,7 @@ mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@pintracker-2jpiz.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
   { useUnifiedTopology: true, useNewUrlParser: true }
 ).then(() => {
-  app.listen(4200);
+  app.listen(PORT);
   console.log(`connected to port ${PORT}`)
 }).catch(e => {
   console.log(e);
