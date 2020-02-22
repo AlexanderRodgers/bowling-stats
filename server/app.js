@@ -20,11 +20,6 @@ router.all('/graphql', graphqlHttp({
   pretty: true
 }));
 
-console.log('environment variables');
-console.log(process.env.MONGO_PASSWORD);
-console.log(process.env.MONGO_DB);
-console.log('environment variables');
-
 // If you run into a connection error, it is most likely because the current IP is not whitelisted. You'll have to login to change that.
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@pintracker-2jpiz.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
@@ -34,6 +29,7 @@ mongoose.connect(
   if (port == null || port == "") {
     port = 4200;
   }
+  app.listen(port);
   console.log(`connected to port ${port}`)
 }).catch(e => {
   console.log(e);
