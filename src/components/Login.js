@@ -78,7 +78,7 @@ const Login = () => {
       <div>
         <Button variant="contained" color="primary"
           style={{ margin: "0 10px 0 10px", float: 'right' }}
-          disabled={() => updateDisabledState()}
+          disabled={disabled}
           onClick={() => this.runQuery()}>
           Submit
             </Button>
