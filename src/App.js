@@ -14,9 +14,13 @@ import Layout from './components/Layout';
 import { createHttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
 
+const NODE_SERVER = 'https://still-meadow-76273.herokuapp.com/graphql'
+const DEV_SERVER = 'http://localhost:4200/graphql'
+const prod = true;
+
 const client = new ApolloClient({
   link: createHttpLink({
-    uri: 'http://localhost:4200/graphql',
+    uri: prod ? NODE_SERVER : DEV_SERVER,
     fetch: fetch
   }),
   cache: new InMemoryCache()
